@@ -6,8 +6,8 @@ import subprocess
 def check_lint(target_path: str) -> int:
     """Lintが通ることを確認します.
 
-    もしこのテストがフェイルした場合は、以下を試してください.
-    >>> fix_lint()
+    Args:
+        target_path: Lintを実行する対象のパス.
     """
     config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pyproject.toml")
     ruff_command = f"ruff check {target_path} --config {config_path}"
@@ -19,7 +19,7 @@ def check_lint(target_path: str) -> int:
     return result.returncode
 
 
-def fix_lint(target_path: str = ".") -> int:
+def fix_lint(target_path: str) -> int:
     """Lintを自動修正します."""
     config_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "pyproject.toml")
     ruff_command = f"ruff check {target_path} --fix --config {config_path}"
