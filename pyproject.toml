@@ -1,6 +1,6 @@
-# reference: https://docs.astral.sh/ruff/configuration/#__tabbed_1_1
+# 参照: https://docs.astral.sh/ruff/configuration/#__tabbed_1_1
 [tool.ruff]
-# Exclude a variety of commonly ignored directories.
+# Ruffの実行対象外のディレクトリを指定します。
 exclude = [
     ".bzr",
     ".direnv",
@@ -28,52 +28,46 @@ exclude = [
     "node_modules",
     "site-packages",
     "venv",
+    "src/user", # 個人ファイル
 ]
 
-# Same as Black.
+# Blackと同様の設定
 line-length = 88
 indent-width = 4
 
-# Assume Python 3.8
+# Python 3.8を想定
 target-version = "py38"
 
 [tool.ruff.lint]
-# Enable Pyflakes (`F`) and a subset of the pycodestyle (`E`)  codes by default.
-# Unlike Flake8, Ruff doesn't enable pycodestyle warnings (`W`) or
-# McCabe complexity (`C901`) by default.
-select = ["E4", "E7", "E9", "F"]
-ignore = []
+# 有効なルールの一覧
+select = [
+    "E4", # [import-order] isortを使用するため除外
+    "E7",
+    "E9",
+    "F",
+    "D",
+    "Q000", # [bad-quotes-inline-string] ダブルクォートを使用(後述のquote-styleで設定)
+]
 
-# Allow fix for all enabled rules (when `--fix`) is provided.
+# 各ルールの除外理由をコメントして残るようにしておくと良いと思います
+ignore = [
+    "D407", # [dashed-underline-after-section]googleのdocstringを使用するため除外
+    "D211", # [no-blank-line-before-class] D203とコンフリクトするため除外
+    "D213", # [multi-line-summary-second-line] D212とコンフリクトするため除外
+]
+
+
+# すべての有効なルールに対する修正 (`--fix` 時) を許可
 fixable = ["ALL"]
 unfixable = []
 
-# Allow unused variables when underscore-prefixed.
-dummy-variable-rgx = "^(_+|(_+[a-zA-Z0-9_]*[a-zA-Z0-9]+?))$"
 
 [tool.ruff.format]
-# Like Black, use double quotes for strings.
+# Blackと同様に文字列にはダブルクォートを使用
 quote-style = "double"
 
-# Like Black, indent with spaces, rather than tabs.
+# Blackと同様にタブではなくスペースでインデント
 indent-style = "space"
 
-# Like Black, respect magic trailing commas.
-skip-magic-trailing-comma = false
-
-# Like Black, automatically detect the appropriate line ending.
+# Blackと同様に適切な行の末尾を自動的に検出
 line-ending = "auto"
-
-# Enable auto-formatting of code examples in docstrings. Markdown,
-# reStructuredText code/literal blocks and doctests are all supported.
-#
-# This is currently disabled by default, but it is planned for this
-# to be opt-out in the future.
-docstring-code-format = false
-
-# Set the line length limit used when formatting code snippets in
-# docstrings.
-#
-# This only has an effect when the `docstring-code-format` setting is
-# enabled.
-docstring-code-line-length = "dynamic"
